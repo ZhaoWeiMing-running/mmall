@@ -94,6 +94,8 @@ public class UserController {
         return userServiceI.resetPassword(passwordOld,passwordNew,user);
     }
 
+
+
     //更新个人信息
     @RequestMapping(value = "update_information.do",method = RequestMethod.POST)
     public ServerResponse<User> updateInformation(HttpSession session,User user){
