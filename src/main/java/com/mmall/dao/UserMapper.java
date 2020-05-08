@@ -16,19 +16,23 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
+    /*校验用户名*/
     int checkUsername(String username);
 
+    /*校验邮箱*/
     int checkEmail(String email);
 
-    User selectLogin(@Param("username") String username, @Param("password")String password);
 
-    String selectQuestionByUsername(String username);
+    User selectLogin(@Param("username") String username,@Param("password") String password);
 
-    int checkAnswer(@Param("username")String username,@Param("question")String question,@Param("answer")String answer);
+    String selectQuestionByUsername(@Param("username") String username);
 
-    int updatePasswordByUsername(@Param("username")String username,@Param("passwordNew")String passwordNew);
+    int checkAnswer(@Param("username") String username,@Param("question") String question,@Param("answer") String answer);
 
-    int checkPassword(@Param(value="password")String password,@Param("userId")Integer userId);
+    //重置密码
+    int updatePasswordByUsername(@Param("username") String username,@Param("passwordNew") String passwordNew);
 
-    int checkEmailByUserId(@Param(value="email")String email,@Param(value="userId")Integer userId);
+    int checkPassword(@Param("password") String password,@Param("userId") Integer userId);
+
+    int checkEmailByUserId(@Param("email") String email,@Param("userId") Integer userId);
 }
