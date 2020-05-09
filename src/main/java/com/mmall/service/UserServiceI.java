@@ -28,4 +28,7 @@ public interface UserServiceI {
     ServerResponse<User> updateInformation(User user);
     //获取个人详细信息
     ServerResponse<User> getInformation(Integer userId);
+
+    //校验是否是管理员
+    ServerResponse<User> checkAdminRole(User user);
 }

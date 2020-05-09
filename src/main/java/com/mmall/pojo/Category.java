@@ -35,6 +35,7 @@ public class Category {
         return id;
     }
 
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -88,6 +89,11 @@ public class Category {
     }
 
 
+    /**
+     * 重写，直接比较id，其他不需要
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,6 +104,7 @@ public class Category {
         return !(id != null ? !id.equals(category.id) : category.id != null);
 
     }
+
 
     @Override
     public int hashCode() {

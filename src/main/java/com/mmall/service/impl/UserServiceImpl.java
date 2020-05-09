@@ -4,12 +4,14 @@ import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
 import com.mmall.common.TokenCache;
 import com.mmall.dao.UserMapper;
+import com.mmall.pojo.Category;
 import com.mmall.pojo.User;
 import com.mmall.service.UserServiceI;
 import com.mmall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.UUID;
@@ -230,6 +232,17 @@ public class UserServiceImpl implements UserServiceI {
         //返回user
         return ServerResponse.createBySuccess(user);
     }
+
+
+    //校验是否是管理员
+    public ServerResponse<User> checkAdminRole(User user){
+        //intValue是判断枚举类const设置管理员对应的值一样
+        if (user !=null && user.getRole().intValue()==Const.Role.ROLE_ADMIN){
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
+
 
 
 }
