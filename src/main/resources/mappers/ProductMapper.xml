@@ -191,29 +191,32 @@
     <include refid="Base_Column_List"/>
     from mmall_product
     <where>
-      <if test="productName != null">
-        and name like #{productName}
+      <if test="productName != null and productName!=''">
+        and name like concat('%',#{productName},'%')
       </if>
       <if test="productId != null">
         and id = #{productId}
       </if>
     </where>
   </select>
-  
+
+
+
   <select id="selectByNameAndCategoryIds" resultMap="BaseResultMap" parameterType="map">
-    SELECT
-    <include refid="Base_Column_List"></include>
+    select
+    <include refid="Base_Column_List"/>
     from mmall_product
-    where status = 1
-    <if test="productName != null">
-      and name like #{productName}
+    where status=1
+    <if test="productName !=null">
+      and name like concat('%',#{productName},'%')
     </if>
-    <if test="categoryIdList != null" >
+    <if test="categoryIdList !=null">
       and category_id in
-      <foreach item="item" index="index" open="(" separator="," close=")" collection="categoryIdList">
+      <foreach collection="categoryIdList" item="item" index="index" open="(" separator="," close=")">
         #{item}
       </foreach>
     </if>
   </select>
+
 
 </mapper>
