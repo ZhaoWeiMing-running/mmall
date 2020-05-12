@@ -61,8 +61,8 @@ public class CartServiceImpl implements CartServiceI {
             cart.setQuantity(count);
             cartMapper.updateByPrimaryKeySelective(cart);
         }
-        //todo  需要理解的地方
-        return null;
+        CartVo cartVo=this.getCartVoLimit(userId);
+        return ServerResponse.createBySuccess(cartVo);
     }
 
 
