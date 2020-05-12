@@ -18,21 +18,12 @@ public interface CartMapper {
 
     int updateByPrimaryKey(Cart record);
 
-    Cart selectCartByUserIdProductId(@Param("userId") Integer userId, @Param("productId")Integer productId);
 
+    Cart selectCartByUserIdProductId(@Param("userId") Integer userId,@Param("productId") Integer productId);
+
+    //根据userId查询购物车
     List<Cart> selectCartByUserId(Integer userId);
 
+    //判断是否是全选状态
     int selectCartProductCheckedStatusByUserId(Integer userId);
-
-    int deleteByUserIdProductIds(@Param("userId") Integer userId,@Param("productIdList")List<String> productIdList);
-
-
-    int checkedOrUncheckedProduct(@Param("userId") Integer userId,@Param("productId")Integer productId,@Param("checked") Integer checked);
-
-    int selectCartProductCount(@Param("userId") Integer userId);
-
-
-    List<Cart> selectCheckedCartByUserId(Integer userId);
-
-
 }

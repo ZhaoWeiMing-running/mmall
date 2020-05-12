@@ -118,79 +118,29 @@
   </update>
 
 
-  <select id="selectCartByUserIdProductId" resultMap="BaseResultMap" parameterType="map">
-    SELECT
-    <include refid="Base_Column_List"/>
+  <!--根据userId和productId查询购物车-->
+  <select id="selectCartByUserIdProductId" resultType="com.mmall.pojo.Cart">
+    select
+    <include refid="Base_Column_List" />
     from mmall_cart
-    where user_id = #{userId}
-    and product_id = #{productId}
+    where user_id=#{userId}
+    and product_id=#{productId}
   </select>
 
-
-
-  <select id="selectCartByUserId" resultMap="BaseResultMap" parameterType="int">
-    SELECT
-    <include refid="Base_Column_List"/>
+  <!--根据userId查询购物车情况-->
+  <select id="selectCartByUserId" resultType="com.mmall.pojo.Cart">
+    select
+    <include refid="Base_Column_List" />
     from mmall_cart
-    where user_id = #{userId}
+    where user_id=#{userId}
   </select>
 
-  <select id="selectCartProductCheckedStatusByUserId" resultType="int" parameterType="int">
-    SELECT  count(1) from mmall_cart where checked = 0 and user_id = #{userId}
+  <!--判断是否是全选状态
+    如果有未勾选，代表不是全选
+    如果未勾选的数量为0，代表全勾选-->
+  <select id="selectCartProductCheckedStatusByUserId" resultType="java.lang.Integer">
+    select count(1) from mmall_cart where checked=0 and user_id=#{userId}
   </select>
-  
-  
-  <delete id="deleteByUserIdProductIds" parameterType="map">
-    delete from mmall_cart
-    where user_id = #{userId}
-    <if test="productIdList != null">
-      and product_id in
-      <foreach collection="productIdList" item="item" index="index" open="(" separator="," close=")">
-        #{item}
-      </foreach>
-    </if>
-  </delete>
-
-
-
-  <update id="checkedOrUncheckedProduct" parameterType="map">
-    UPDATE  mmall_cart
-    set checked = #{checked},
-    update_time = now()
-    where user_id = #{userId}
-    <if test="productId != null">
-      and product_id = #{productId}
-    </if>
-  </update>
-
-
-  <select id="selectCartProductCount" parameterType="int" resultType="int">
-    select IFNULL(sum(quantity),0) as count from mmall_cart where user_id = #{userId}
-  </select>
-
-
-
-  <select id="selectCheckedCartByUserId" parameterType="int" resultMap="BaseResultMap">
-    SELECT
-    <include refid="Base_Column_List"/>
-    from mmall_cart
-    where user_id = #{userId}
-    and checked = 1
-  </select>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </mapper>
