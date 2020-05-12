@@ -1,5 +1,6 @@
 package com.mmall.service.impl;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.mmall.common.Const;
 import com.mmall.common.ResponseCode;
@@ -17,6 +18,7 @@ import com.mmall.vo.CartVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.awt.image.OffScreenImage;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -65,6 +67,46 @@ public class CartServiceImpl implements CartServiceI {
         return ServerResponse.createBySuccess(cartVo);
     }
 
+    /**
+     * 修改购物车
+     */
+    @Override
+    public ServerResponse<CartVo> update(Integer productId,Integer count,Integer userId){
+
+        if (productId==null || count==null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        Cart cart = cartMapper.selectCartByUserIdProductId(productId, userId);
+        if (cart!=null){
+            //如果购物车不是null，则进行数量的修改
+            cart.setQuantity(count);
+        }
+        //更新数量
+        cartMapper.updateByPrimaryKey(cart);
+        //调用数量限制的方法
+        CartVo cartVo = this.getCartVoLimit(userId);
+        return ServerResponse.createBySuccess(cartVo);
+    }
+
+    /**
+     * 删除产品
+     * @param userId
+     * @return
+     */
+    @Override
+    public ServerResponse<CartVo> deleteProduct(String productIds,Integer userId){
+        //用guava的splitter方法，直接就可以将字符串分割转集合，不然要把productIds转为数组，然后再遍历数组添加到集合当中
+        List<String> productList= Splitter.on(",").splitToList(productIds);
+        //对集合进行判断
+        if (CollectionUtils.isEmpty(productList)){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        //
+        cartMapper.deleteByUserIdProductIds(productList,userId);
+        //调用数量限制的方法
+        CartVo cartVo = this.getCartVoLimit(userId);
+        return ServerResponse.createBySuccess(cartVo);
+    }
 
     //数量限制的方法
     private CartVo getCartVoLimit(Integer userId){

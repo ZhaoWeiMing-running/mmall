@@ -142,5 +142,16 @@
     select count(1) from mmall_cart where checked=0 and user_id=#{userId}
   </select>
 
+  <!--多选删除-->
+  <delete id="deleteByUserIdProductIds">
+    delete from mmall_cart where user_id=#{userId}
+    <if test="productList !=null">
+      and product_id in
+      <foreach collection="productList" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+
 
 </mapper>

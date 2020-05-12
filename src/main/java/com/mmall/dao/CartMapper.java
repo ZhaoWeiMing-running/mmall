@@ -26,4 +26,6 @@ public interface CartMapper {
 
     //判断是否是全选状态
     int selectCartProductCheckedStatusByUserId(Integer userId);
+
+    int deleteByUserIdProductIds(@Param("productList") List<String> productList,@Param("userId") Integer userId);
 }
